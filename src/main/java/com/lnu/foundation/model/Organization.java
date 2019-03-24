@@ -99,11 +99,11 @@ public class Organization implements Comparable<Organization> {
     }
 
     public Integer getDistance(double clientLatitude, double clientLongitude) {
-        return DistanceHelper.distance(getLat(), getLongitude(), clientLatitude, clientLongitude, null).intValue();
+        return DistanceHelper.distance(getLat(), getLongitude(), clientLatitude, clientLongitude, "K").intValue();
     }
 
     @Override
     public int compareTo(Organization to) {
-        return this.getDistance().compareTo(this.getDistance(to.getLat(), to.getLongitude()));
+        return this.getDistance().compareTo(to.getDistance());
     }
 }
