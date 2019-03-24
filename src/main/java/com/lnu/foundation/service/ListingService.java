@@ -38,8 +38,8 @@ public class ListingService {
 
                         (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
                                 && (filter.getGuests() <= org.getMaxDailyCapacity())
-                                && (filter.getMaxBudget() <= org.getTotalPrice(filter.getGuests()).doubleValue())
-                                && (filter.getMinBudget() > org.getTotalPrice(filter.getGuests()).doubleValue())
+                                && (filter.getMaxBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
+                                && (filter.getMinBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
 
                 )
                 .map(org -> Listing.of(org, filter.getLatitude(), filter.getLongitude()))
