@@ -38,7 +38,7 @@ public class ListingService {
                         (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
                                 && (filter.getGuests() <= org.getMaxDailyCapacity())
                                 && (filter.getMaxBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
-
+                                && (filter.getType() == null || filter.getType() == org.getOrganizationType())
                 )
                 .map(org -> {
                     org.setDistance(filter.getLatitude(), filter.getLongitude());
@@ -56,6 +56,7 @@ public class ListingService {
         private final Double minBudget;
         private final Double maxBudget;
         private final Date eventDate;
+        private final OrganizationType type;
     }
 
 
