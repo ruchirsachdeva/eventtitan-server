@@ -44,6 +44,7 @@ public class ListingService {
                     org.setDistance(filter.getLatitude(), filter.getLongitude());
                     return org;
                 })
+                .sorted()
                 .collect(Collectors.toList());
     }
 

@@ -22,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"users", "organizations"})
-public class Organization {
+public class Organization implements Comparable<Organization> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,7 @@ public class Organization {
     private byte[] image;
 
     @Transient
-    private Double distance;
+    private Integer distance;
 
     public String toString() {
         return "Organization(organizationId=" + this.getOrganizationId() + ", name=" + this.getName() + ")";
@@ -90,13 +90,20 @@ public class Organization {
     }
 
     @JsonProperty
-    public Double getDistance() {
+    public Integer getDistance() {
         return this.distance;
     }
 
     public void setDistance(double clientLatitude, double clientLongitude) {
-        double distance = DistanceHelper.distance(getLat(), getLongitude(), clientLatitude, clientLongitude, null);
-        this.distance = distance;
+        this.distance = getDistance(clientLatitude, clientLongitude);
     }
 
+    public Integer getDistance(double clientLatitude, double clientLongitude) {
+        return DistanceHelper.distance(getLat(), getLongitude(), clientLatitude, clientLongitude, null).intValue();
+    }
+
+    @Override
+    public int compareTo(Organization to) {
+        return this.getDistance().compareTo(this.getDistance(to.getLat(), to.getLongitude()));
+    }
 }
