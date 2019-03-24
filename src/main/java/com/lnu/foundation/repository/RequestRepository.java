@@ -30,22 +30,15 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @RestResource(path = "byClientId", rel = "byClientId")
     Collection<Request> findByContract_Client_UserId(@Param("id") Long id);
 
-    @RestResource(path = "byContractId", rel = "byContractId")
+    @RestResource(path = "byContractIdAll", rel = "byContractIdAll")
     Collection<Request> findByContract_ContractId(@Param("id") Long id);
 
     @RestResource
-    @Query("select t from Request t left join t.contract th where th.contractId = ?1 and t.duration.startTime is null")
-    Collection<Request> byContractIdRequested(@Param("id") Long id);
+    @Query("select t from Request t left join t.contract th where th.contractId = ?1 and t.duration.endTime is null")
+    Collection<Request> byContractId(@Param("id") Long id);
 
     @RestResource
-    @Query("select t from Request t left join t.contract th where th.contractId = ?1 and t.duration.startTime is not null and t.duration.endTime >= CURRENT_TIME ")
-    Collection<Request> byContractIdUpcoming(@Param("id") Long id);
-
-    @RestResource
-    @Query("select t from Request t left join t.contract th where th.contractId = ?1 and t.duration.startTime is not null and t.duration.endTime < CURRENT_TIME ")
+    @Query("select t from Request t left join t.contract th where th.contractId = ?1  and t.duration.endTime is not null")
     Collection<Request> byContractIdHistory(@Param("id") Long id);
-
-    @RestResource(path = "byProviderUpcoming", rel = "byProviderUpcoming")
-    Collection<Request> findByRequestIdAndDuration_StartTimeNotNullAndDuration_StartTimeGreaterThan(@Param("requestId") long contractId, @Param("currentDate") LocalDateTime currentDate);
 
 }

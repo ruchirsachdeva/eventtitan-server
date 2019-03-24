@@ -24,22 +24,15 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @RestResource(path = "byOrganization", rel = "byOrganization")
     List<Contract> findByOrganization_OrganizationId(@Param("organizationId") Long organizationId);
 
-    @RestResource(path = "byProviderRequested", rel = "byProviderRequested")
-    Collection<Contract> findByOrganization_Provider_UsernameAndDuration_StartTimeNull(@Param("provider") String provider);
-
-    @RestResource(path = "byClientRequested", rel = "byClientRequested")
-    Collection<Contract> findByClient_UsernameAndDuration_StartTimeNull(@Param("client") String client);
-
     @RestResource(path = "byProviderOngoing", rel = "byProviderOngoing")
-    Collection<Contract> findByOrganization_Provider_UsernameAndDuration_StartTimeNotNullAndDuration_EndTimeIsNull(@Param("provider") String provider);
-
+    Collection<Contract> findByOrganization_Provider_UsernameAndDuration_EndTimeIsNull(@Param("provider") String provider);
 
     @RestResource(path = "byClientOngoing", rel = "byClientOngoing")
-    Collection<Contract> findByClient_UsernameAndDuration_StartTimeNotNullAndDuration_EndTimeIsNull(@Param("client") String client);
+    Collection<Contract> findByClient_UsernameAndDuration_EndTimeIsNull(@Param("client") String client);
 
     @RestResource(path = "byProviderHistory", rel = "byProviderHistory")
-    Collection<Contract> findByOrganization_Provider_UsernameAndDuration_StartTimeNotNullAndDuration_EndTimeNotNull(@Param("provider") String provider);
+    Collection<Contract> findByOrganization_Provider_UsernameAndDuration_EndTimeNotNull(@Param("provider") String provider);
 
     @RestResource(path = "byClientHistory", rel = "byClientHistory")
-    Collection<Contract> findByClient_UsernameAndDuration_StartTimeNotNullAndDuration_EndTimeNotNull(@Param("client") String client);
+    Collection<Contract> findByClient_UsernameAndDuration_EndTimeNotNull(@Param("client") String client);
 }

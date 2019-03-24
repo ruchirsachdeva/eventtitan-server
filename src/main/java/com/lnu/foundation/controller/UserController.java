@@ -7,9 +7,7 @@ import com.lnu.foundation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by rucsac on 10/10/2018.
@@ -31,20 +29,20 @@ public class UserController {
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("/me/tests")
     public Collection<Request> getRequests() {
-        Collection<Request> sessions;
+        Collection<Request> requests;
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
         if (user.getRole() != null && "researcher".equals(user.getRole().getName())) {
-            sessions = service.getSessions(user.getUsername());
+            requests = service.getRequests(user.getUsername());
         } else {
-            sessions = service.getSessions();
+            requests = service.getRequests();
         }
-        return sessions;
+        return requests;
     }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("user/{username}/tests")
     public Collection<Request> getClientRequests(@PathVariable String username) {
-        return service.getClientSessions(username);
+        return service.getClientRequests(username);
     }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
@@ -83,13 +81,5 @@ public class UserController {
 
         return contracts;
     }
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("/hours/{sessionId}")
-    public List<Duration> getAvailableWorkingDuration(@PathVariable("sessionId") Long sessionId) {
-        LocalDate of = LocalDate.of(2019, 4, 13);
-        return service.getAvailableWorkingDurations(sessionId);
-    }
-
 
 }

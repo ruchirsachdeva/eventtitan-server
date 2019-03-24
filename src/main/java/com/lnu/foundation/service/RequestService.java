@@ -1,8 +1,6 @@
 package com.lnu.foundation.service;
 
-import com.lnu.foundation.model.Contract;
-import com.lnu.foundation.model.Duration;
-import com.lnu.foundation.model.Request;
+import com.lnu.foundation.model.*;
 import com.lnu.foundation.repository.RequestRepository;
 import com.lnu.foundation.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,37 +18,41 @@ public class RequestService {
 
 
     @Autowired
-    private RequestRepository sessionRepo;
+    private RequestRepository requestRepo;
 
 
     @Autowired
     private ContractRepository contractRepository;
 
+    @Autowired
+    private SecurityContextService context;
 
-    public void requestSession(long contractId, int requestedHours) {
+
+    public void createRequest(long contractId, String type) {
         Contract contract = contractRepository.getOne(contractId);
-        Request session = new Request();
-        session.setContract(contract);
-        sessionRepo.save(session);
+        Request request = new Request();
+        Note note = new Note();
+        note.setNote("Request type is : + " + type);
+        note.setRequest(request);
+        note.setProviderUser(context.getMe());
+        request.addNote(note);
+        request.setContract(contract);
+        Duration duration = new Duration();
+        duration.setStartTime(LocalDateTime.now());
+        request.setDuration(duration);
+        requestRepo.save(request);
     }
 
-    public void bookSession(long sessionId, Duration duration) {
-        Request session = sessionRepo.getOne(sessionId);
-        session.setDuration(duration);
-        sessionRepo.save(session);
-    }
-
-
-    public void endSession(Long sessionId) {
-        Request session = sessionRepo.getOne(sessionId);
-        Duration duration = session.getDuration();
+    public void endRequest(Long requestId) {
+        Request request = requestRepo.getOne(requestId);
+        Duration duration = request.getDuration();
         LocalDateTime now = LocalDateTime.now();
-        if(duration.getStartTime()!=null && duration.getStartTime().isAfter(now)){
-        duration.setStartTime(now);
+        if (duration.getStartTime() != null && duration.getStartTime().isAfter(now)) {
+            duration.setStartTime(now);
         }
         duration.setEndTime(now);
-        session.setDuration(duration);
-        sessionRepo.save(session);
+        request.setDuration(duration);
+        requestRepo.save(request);
 
     }
 }

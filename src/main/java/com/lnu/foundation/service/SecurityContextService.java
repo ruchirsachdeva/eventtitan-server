@@ -33,4 +33,8 @@ public class SecurityContextService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         return authenticate;
     }
+
+    public User getMe() {
+        return currentUser().orElseThrow(RuntimeException::new);
+    }
 }

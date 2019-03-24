@@ -20,16 +20,16 @@ public class NoteService {
 
 
     @Autowired
-    private RequestRepository sessionRepo;
+    private RequestRepository requestRepo;
 
     @Autowired
     private NoteRepository noterepo;
 
     public Collection<Note> addNote(Long requestId, Note note, User user) {
-        Request session = sessionRepo.getOne(requestId);
+        Request request = requestRepo.getOne(requestId);
         note.setProviderUser(user);
-        note.setRequest(session);
+        note.setRequest(request);
         noterepo.save(note);
-        return noterepo.findByRequest(session);
+        return noterepo.findByRequest(request);
     }
 }

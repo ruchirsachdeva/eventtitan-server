@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
  * Created by rucsac on 10/10/2018.
  */
 @RestController
-@RequestMapping("/api/sessions")
-public class SessionController {
+@RequestMapping("/api/requests")
+public class RequestController {
 
 
     @Autowired
@@ -21,21 +21,16 @@ public class SessionController {
 
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @PostMapping("request/{contractId}/{requestedHours}")
-    public void request(@PathVariable Long contractId, @PathVariable int requestedHours) {
-        service.requestSession(contractId, requestedHours);
-    }
-
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @PostMapping("book/{sessionId}")
-    public void book(@PathVariable Long sessionId, @RequestBody Duration duration) {
-        service.bookSession(sessionId, duration);
+    @PostMapping("contract/{contractId}/{type}")
+    public void request(@PathVariable Long contractId, @PathVariable String type) {
+        service.createRequest(contractId, type);
     }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @PostMapping("end/{sessionId}")
-    public void end(@PathVariable Long sessionId) {
-        service.endSession(sessionId);
+    @PostMapping("end/{requestId}")
+    public void end(@PathVariable Long requestId) {
+        service.endRequest(requestId);
     }
+
+
 }

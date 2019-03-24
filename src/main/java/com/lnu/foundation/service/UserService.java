@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
     private UserRepository repository;
 
     @Autowired
-    private RequestRepository sessionRepo;
+    private RequestRepository requestRepo;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -44,17 +44,17 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Collection<Request> getSessions(String username) {
-        return sessionRepo.findByContract_Organization_Provider_Username(username);
+    public Collection<Request> getRequests(String username) {
+        return requestRepo.findByContract_Organization_Provider_Username(username);
     }
 
 
-    public Collection<Request> getSessions() {
-        return sessionRepo.findAll();
+    public Collection<Request> getRequests() {
+        return requestRepo.findAll();
     }
 
-    public Collection<Request> getClientSessions(String username) {
-        return sessionRepo.findByContract_Client_Username(username);
+    public Collection<Request> getClientRequests(String username) {
+        return requestRepo.findByContract_Client_Username(username);
     }
 
     public List<Contract> getContractsByClient(String username) {
@@ -130,15 +130,17 @@ public class UserService implements UserDetailsService {
         return repository.findByRole_Name(role).get(0);
     }
 
-    public List<Duration> getAvailableWorkingDurations(long sessionId) {
-        Request contract = sessionRepo.getOne(sessionId);
-        Organization providerOrganization = contract.getContract().getOrganization();
+    /**
+    public List<Duration> getAvailableWorkingDurations(long requestId) {
+        Request request = requestRepo.getOne(requestId);
+        Organization providerOrganization = request.getContract().getOrganization();
         List<Duration> available = providerOrganization.getWorkingDates(LocalDate.now().plusMonths(12));
         List<Duration> upcoming = new ArrayList<>();
-        Collection<Request> upcomingSessions = sessionRepo.findByRequestIdAndDuration_StartTimeNotNullAndDuration_StartTimeGreaterThan(sessionId, LocalDateTime.now());
+        Collection<Request> upcomingSessions = requestRepo.findByRequestIdAndDuration_StartTimeNotNullAndDuration_StartTimeGreaterThan(requestId, LocalDateTime.now());
         for (Request upcomingSession : upcomingSessions) {
             upcoming.add(upcomingSession.getDuration());
         }
         return new DurationsHelper().calculateAvailableDurations(available, upcoming);
     }
+     */
 }
