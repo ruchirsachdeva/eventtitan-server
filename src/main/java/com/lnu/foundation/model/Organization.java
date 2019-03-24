@@ -2,6 +2,7 @@ package com.lnu.foundation.model;
 
 
 import com.fasterxml.jackson.annotation.*;
+import com.lnu.foundation.service.DistanceHelper;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,9 @@ public class Organization {
     @Basic
     private byte[] image;
 
+    @Transient
+    private Double distance;
+
     public String toString() {
         return "Organization(organizationId=" + this.getOrganizationId() + ", name=" + this.getName() + ")";
     }
@@ -84,4 +88,15 @@ public class Organization {
         byte[] imageByte = Base64.decodeBase64(base64);
         this.setImage(imageByte);
     }
+
+    @JsonProperty
+    public Double getDistance() {
+        return this.distance;
+    }
+
+    public void setDistance(double clientLatitude, double clientLongitude) {
+        double distance = DistanceHelper.distance(getLat(), getLongitude(), clientLatitude, clientLongitude, null);
+        this.distance = distance;
+    }
+
 }

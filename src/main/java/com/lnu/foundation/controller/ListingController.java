@@ -1,6 +1,6 @@
 package com.lnu.foundation.controller;
 
-import com.lnu.foundation.model.Listing;
+import com.lnu.foundation.model.Organization;
 import com.lnu.foundation.service.ListingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class ListingController {
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @PostMapping("/filtered")
-    public Collection<Listing> getListings(@RequestBody ListingService.UserData filter) {
+    public Collection<Organization> getListings(@RequestBody ListingService.UserData filter) {
         logger.info("getListings#UserData: " + filter);
 
         return listingService.getListings(filter);

@@ -26,22 +26,24 @@ public class ListingService {
     private OrganizationRepository organizationRepo;
 
 
-    public Collection<Listing> getListings(UserData filter) {
+    public Collection<Organization> getListings(UserData filter) {
         List<Organization> listings = organizationRepo.findAll();
 
         return filterListings(listings, filter);
     }
 
-    private Collection<Listing> filterListings(Collection<Organization> listings, UserData filter) {
+    private Collection<Organization> filterListings(Collection<Organization> listings, UserData filter) {
         return listings.stream().parallel()
                 .filter(org ->
-
                         (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
                                 && (filter.getGuests() <= org.getMaxDailyCapacity())
                                 && (filter.getMaxBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
 
                 )
-                .map(org -> Listing.of(org, filter.getLatitude(), filter.getLongitude()))
+                .map(org -> {
+                    org.setDistance(filter.getLatitude(), filter.getLongitude());
+                    return org;
+                })
                 .collect(Collectors.toList());
     }
 
