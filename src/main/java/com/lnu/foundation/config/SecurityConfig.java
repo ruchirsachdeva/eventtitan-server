@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // we use jwt so that we can disable csrf protection
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/css/**", "/connect/**", "/api/auth/**", "/", "/login").permitAll()
+        http.authorizeRequests().antMatchers("/css/**", "/connect/**", "/api/auth/**", "/", "/login", "/api/listings/**").permitAll()
                 //.antMatchers("/secure/**", "/users/**", "/notes/**")
                 .antMatchers("/api/requests/**").hasAnyRole("CLIENT", "PROVIDER")
                 .antMatchers("/api/contracts/**").hasAnyRole("CLIENT", "PROVIDER")
