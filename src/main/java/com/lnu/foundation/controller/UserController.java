@@ -4,10 +4,12 @@ import com.lnu.foundation.model.*;
 import com.lnu.foundation.service.NoteService;
 import com.lnu.foundation.service.SecurityContextService;
 import com.lnu.foundation.service.UserService;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by rucsac on 10/10/2018.
@@ -26,18 +28,6 @@ public class UserController {
     private NoteService noteService;
 
 
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("/me/tests")
-    public Collection<Request> getRequests() {
-        Collection<Request> requests;
-        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        if (user.getRole() != null && "researcher".equals(user.getRole().getName())) {
-            requests = service.getRequests(user.getUsername());
-        } else {
-            requests = service.getRequests();
-        }
-        return requests;
-    }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("user/{username}/tests")
@@ -64,22 +54,21 @@ public class UserController {
         return noteService.addNote(requestId, note, user);
     }
 
-
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("/contracts")
     public Collection<Contract> getContracts() {
         Collection<Contract> contracts = null;
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        if ("physician".equals(user.getRole().getName())) {
+        if ("provider".equals(user.getRole().getName())) {
             contracts = service.getContractsByProvider(user.getUsername());
-        } else if ("researcher".equals(user.getRole().getName())
-                || "junior researcher".equals(user.getRole().getName())) {
-            contracts = service.getContracts();
-        } else {
+        } else if ("client".equals(user.getRole().getName())) {
             contracts = service.getContractsByClient(user.getUsername());
+        } else if ("admin".equals(user.getRole().getName())) {
+            contracts = service.getContracts();
         }
 
         return contracts;
     }
+
 
 }

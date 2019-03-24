@@ -53,7 +53,6 @@ public class Organization {
     @Basic
     private byte[] image;
 
-
     public String toString() {
         return "Organization(organizationId=" + this.getOrganizationId() + ", name=" + this.getName() + ")";
     }
