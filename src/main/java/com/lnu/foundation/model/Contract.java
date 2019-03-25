@@ -4,6 +4,7 @@ package com.lnu.foundation.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -29,5 +30,12 @@ public class Contract {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
+    private Integer guests;
 
+
+    public void endContract() {
+        Duration duration = getDuration();
+        duration.setEndTime(LocalDateTime.now());
+        setDuration(duration);
+    }
 }

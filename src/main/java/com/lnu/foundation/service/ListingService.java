@@ -5,6 +5,7 @@ import com.lnu.foundation.repository.NoteRepository;
 import com.lnu.foundation.repository.OrganizationRepository;
 import com.lnu.foundation.repository.RequestRepository;
 import lombok.Value;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,14 @@ public class ListingService {
                 })
                 .sorted()
                 .collect(Collectors.toList());
+    }
+
+    public void save(Organization listing) {
+        String base64 = listing.getBase64();
+        //TODO remove below if setBase64 in Organization works
+        byte[] imageByte= Base64.decodeBase64(base64);
+        listing.setImage(imageByte);
+        organizationRepo.save(listing);
     }
 
 

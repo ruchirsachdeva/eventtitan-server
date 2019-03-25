@@ -23,16 +23,27 @@ public class ContractService {
     private OrganizationRepository orgRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SecurityContextService context;
 
 
-    public void startContract(User client, Long organizationId) {
+    public void startContract(Integer guests, Long organizationId) {
         Contract contract = new Contract();
-        contract.setClient(client);
+        User me = context.getMe();
+        contract.setClient(me);
+        contract.setGuests(guests);
         Organization org = this.orgRepository.getOne(organizationId);
         contract.setOrganization(org);
-      //  contract.setDuration(new Duration(LocalDateTime.now(), null));
+        contract.setDuration(new Duration(LocalDateTime.now(), null));
         this.contractRepository.save(contract);
     }
+
+    public void endContract(Long contractId) {
+        Contract contract = contractRepository.getOne(contractId);
+       contract.endContract();
+        this.contractRepository.save(contract);
+    }
+
 
     private User findNearestProviderByOrganization(User client, Long organizationId) {
 

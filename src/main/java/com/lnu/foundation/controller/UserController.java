@@ -1,6 +1,7 @@
 package com.lnu.foundation.controller;
 
 import com.lnu.foundation.model.*;
+import com.lnu.foundation.service.ListingService;
 import com.lnu.foundation.service.NoteService;
 import com.lnu.foundation.service.SecurityContextService;
 import com.lnu.foundation.service.UserService;
@@ -28,7 +29,6 @@ public class UserController {
     private NoteService noteService;
 
 
-
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("user/{username}/tests")
     public Collection<Request> getClientRequests(@PathVariable String username) {
@@ -47,27 +47,27 @@ public class UserController {
         return securityContextService.currentUser().orElseThrow(RuntimeException::new);
     }
 
+
+    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
+    @GetMapping("/me/listings")
+    public Collection<Organization> getMyListings() {
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        return user.getOrganizations();
+    }
+
+
+    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
+    @PostMapping("/{orgId}")
+    public void addListings(@RequestBody Organization org) {
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        service.addListing(user, org);
+    }
+
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @PostMapping("user/me/tests/{requestId}/note")
     public Collection<Note> addNote(@PathVariable Long requestId, @RequestBody Note note) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
         return noteService.addNote(requestId, note, user);
-    }
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("/contracts")
-    public Collection<Contract> getContracts() {
-        Collection<Contract> contracts = null;
-        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        if ("provider".equals(user.getRole().getName())) {
-            contracts = service.getContractsByProvider(user.getUsername());
-        } else if ("client".equals(user.getRole().getName())) {
-            contracts = service.getContractsByClient(user.getUsername());
-        } else if ("admin".equals(user.getRole().getName())) {
-            contracts = service.getContracts();
-        }
-
-        return contracts;
     }
 
 

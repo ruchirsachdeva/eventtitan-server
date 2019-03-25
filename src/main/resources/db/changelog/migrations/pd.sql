@@ -66,19 +66,19 @@ INSERT INTO `organization` (`organization_id`,`organization_type`, `provider_id`
   (1,'VENUE', 1, 'Event lawn 1', 28.7175947,77.1024348,null, 1000, null, 100000, null ),
   (2,'VENUE', 2, 'Event lawn 2',28.7005268,76.878112,null, 700, null, 70000, null ),
   (3,'VENUE', 3, 'Event lawn 3',28.7566421,76.9575441,null, 1500, null, 120000, null ),
-  (4,'VENUE', 4, 'Event lawn 4',28.6424197,76.6364671,null, 400, null, 35000, null ),
+  (4,'VENUE', 4, 'Event lawn 4',28.210508,77.0602773,null, 400, null, 35000, null ),
   (5,'VENUE', 2, 'Event hall 1',28.445478, 76.940545,null, 600, null, 55000, null ),
-  (6,'VENUE', 3, 'Event hall 2',28.611766, 77.048382,null, 200, null, 30000, null ),
+  (6,'VENUE', 3, 'Event hall 2',28.611766, 77.648382,null, 200, null, 30000, null ),
   (7,'VENUE', 4, 'Event hall 3',28.541972, 77.233456,null, 100, null, 9900, null ),
   (8,'VENUE', 1, 'Birthday venue 1',28.563012, 77.136509,null, 50, null, 2000, null ),
   (9,'VENUE', 2, 'Birthday venue 2',28.616661, 77.359777,null, 200, null, 11000, null ),
-  (10,'VENUE', 1,'Event lawn 4',28.855445, 76.649048,null, 700, null, 70000, null ),
+  (10,'VENUE', 11,'Birthday venue lawn 4',28.855445, 76.649048,null, 700, null, 70000, null ),
   (11, 'FOOD', 1, 'Caterer 1', 28.7175947,77.1024348,200, 1000, 1000, null, 100 ),
   (12, 'FOOD', 2, 'Caterer 2',28.7005268,76.878112,100, 700, 800, null, 100 ),
   (13, 'FOOD', 3, 'Caterer 3',28.7566421,76.9575441,500, 1500, 700, null, 100 ),
-  (14, 'FOOD', 4, 'Caterer 4',28.6424197,76.6364671,50, 400, 900, null, 100 ),
-  (15, 'FOOD', 2, 'International cuisine 1',28.445478, 76.940545,100, 600, 1000, null, 100 ),
-  (16, 'FOOD', 3, 'International cuisine 2',28.611766, 77.048382,50, 200, 800, null, 100 ),
+  (14, 'FOOD', 4, 'Caterer 4',28.210508,77.0602773,50, 400, 900, null, 100 ),
+  (15, 'FOOD', 11, 'International cuisine 1',28.445478, 76.940545,100, 600, 1000, null, 100 ),
+  (16, 'FOOD', 3, 'International cuisine 2',28.611766, 77.648382,50, 200, 800, null, 100 ),
   (17, 'FOOD', 4, 'International cuisine 3',28.541972, 77.233456,30, 100, 700, null, 100 ),
   (18, 'FOOD', 1, 'Desi tadka 1',28.563012, 77.136509,10, 50, 400, null, 100 ),
   (19, 'FOOD', 2, 'Desi tadka 2',28.616661, 77.359777,50, 200, 500, null, 100 ),
@@ -86,21 +86,21 @@ INSERT INTO `organization` (`organization_id`,`organization_type`, `provider_id`
   (21, 'DECOR', 1, 'Decor 1', 28.7175947,77.1024348,200, 1000, 1000, null, 100 ),
   (22, 'DECOR', 2, 'Decor 2',28.7005268,76.878112,100, 700, 800, null, 100 ),
   (23, 'DECOR', 3, 'Decor 3',28.7566421,76.9575441,500, 1500, 700, null, 100 ),
-  (24, 'DECOR', 4, 'Decor 4',28.6424197,76.6364671,50, 400, 900, null, 100 ),
+  (24, 'DECOR', 4, 'Decor 4',28.210508,77.0602773,50, 400, 900, null, 100 ),
   (25, 'DECOR', 2, 'International Decor 1',28.445478, 76.940545,100, 600, 1000, null, 100 ),
-  (26, 'DECOR', 3, 'International Decor 2',28.611766, 77.048382,50, 200, 800, null, 100 ),
+  (26, 'DECOR', 3, 'International Decor 2',28.611766, 77.648382,50, 200, 800, null, 100 ),
   (27, 'DECOR', 4, 'International Decor 3',28.541972, 77.233456,30, 100, 700, null, 100 ),
   (28, 'DECOR', 1, 'Desi Decor 1',28.563012, 77.136509,10, 50, 400, null, 100 ),
   (29, 'DECOR', 2, 'Desi Decor 2',28.616661, 77.359777,50, 200, 500, null, 100 ),
   (30, 'DECOR', 1,'Desi Decor 4',28.855445, 76.649048,100, 700, 400, null, 400 ),
-  (31, 'GROOM', 1, 'Stylist 1', 28.7175947,77.1024348,200, 1000, 1000, null, 100 ),
+  (31, 'GROOM', 11, 'Stylist 1', 28.7175947,77.1024348,200, 1000, 1000, null, 100 ),
   (32, 'GROOM', 2, 'Stylist 2',28.7005268,76.878112,100, 700, 800, null, 100 ),
   (33, 'GROOM', 3, 'Stylist 3',28.7566421,76.9575441,500, 1500, 700, null, 100 ),
-  (34, 'GROOM', 4, 'Stylist 4',28.6424197,76.6364671,50, 400, 900, null, 100 ),
+  (34, 'GROOM', 4, 'Stylist 4',28.210508,77.0602773,50, 400, 900, null, 100 ),
   (35, 'GROOM', 2, 'International Stylist 1',28.445478, 76.940545,100, 600, 1000, null, 100 ),
-  (36, 'GROOM', 3, 'International Stylist 2',28.611766, 77.048382,50, 200, 800, null, 100 ),
+  (36, 'GROOM', 3, 'International Stylist 2',28.611766, 77.648382,50, 200, 800, null, 100 ),
   (37, 'GROOM', 4, 'International Stylist 3',28.541972, 77.233456,30, 100, 700, null, 100 ),
-  (38, 'GROOM', 1, 'Desi Stylist 1',28.563012, 77.136509,10, 50, 400, null, 100 ),
+  (38, 'GROOM', 11, 'Desi Stylist 1',28.563012, 77.136509,10, 50, 400, null, 100 ),
   (39, 'GROOM', 2, 'Desi Stylist 2',28.616661, 77.359777,50, 200, 500, null, 100 ),
   (40, 'GROOM', 1,'Desi Stylist 4',28.855445, 76.649048,100, 700, 400, null, 400 );
 
@@ -161,7 +161,8 @@ CREATE TABLE `contract` (
   `client_id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
   `start_time` datetime,
-  `end_time` datetime
+  `end_time` datetime,
+  `guests` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -226,7 +227,8 @@ INSERT INTO `user` (`user_id`, `username`, `email`, `role_id`, `lat`, `long`) VA
   (7, 'client3', 'client3@eventtitan.com', 1, 28.459497, 77.026634),
   (8, 'client4', 'client4@eventtitan.com', 1, 28.853960, 77.091782),
   (9, 'client5', 'client5@eventtitan.com', 1, 28.704060, 77.102493),
-  (10, 'client6', 'client6@eventtitan.com', 1, 28.573839, 77.219391);
+  (10, 'client6', 'client6@eventtitan.com', 1, 28.573839, 77.219391),
+  (11, 'hitender', 'hitender@eventtitan.com', 2, 28.209, 76.918);
 
 
 

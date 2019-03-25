@@ -84,6 +84,11 @@ public class Organization implements Comparable<Organization> {
         return Base64.encodeBase64String(this.image);
     }
 
+    public void setBase64(String base64) {
+        byte[] imageByte = Base64.decodeBase64(base64);
+        this.setImage(imageByte);
+    }
+
     public void setImageBase64(String base64) {
         byte[] imageByte = Base64.decodeBase64(base64);
         this.setImage(imageByte);

@@ -43,6 +43,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SecurityContextService context;
+
 
     public Collection<Request> getRequests(String username) {
         return requestRepo.findByContract_Organization_Provider_Username(username);
@@ -85,15 +88,11 @@ public class UserService implements UserDetailsService {
         user.setLat(signupForm.getLatitude());
         user.setLongitude(signupForm.getLongitude());
         user.setRole(role);
-        if ("PHYSICIAN".equalsIgnoreCase(signupForm.getRoleName())) {
+        if ("provider".equalsIgnoreCase(signupForm.getRoleName())) {
             Organization org = this.orgRepo.getOne(signupForm.getOrganizationId());
             user.addOrganization(org);
         }
         repository.save(user);
-
-        if ("PATIENT".equalsIgnoreCase(signupForm.getRoleName())) {
-            this.contractService.startContract(user, signupForm.getOrganizationId());
-        }
 
 
         return user;
@@ -130,17 +129,24 @@ public class UserService implements UserDetailsService {
         return repository.findByRole_Name(role).get(0);
     }
 
-    /**
-    public List<Duration> getAvailableWorkingDurations(long requestId) {
-        Request request = requestRepo.getOne(requestId);
-        Organization providerOrganization = request.getContract().getOrganization();
-        List<Duration> available = providerOrganization.getWorkingDates(LocalDate.now().plusMonths(12));
-        List<Duration> upcoming = new ArrayList<>();
-        Collection<Request> upcomingSessions = requestRepo.findByRequestIdAndDuration_StartTimeNotNullAndDuration_StartTimeGreaterThan(requestId, LocalDateTime.now());
-        for (Request upcomingSession : upcomingSessions) {
-            upcoming.add(upcomingSession.getDuration());
+    public void addListing(User user, Organization org) {
+        if (user.isProvider()) {
+            org.setProvider(user);
+            user.addOrganization(org);
         }
-        return new DurationsHelper().calculateAvailableDurations(available, upcoming);
+        repository.save(user);
     }
+    /**
+     public List<Duration> getAvailableWorkingDurations(long requestId) {
+     Request request = requestRepo.getOne(requestId);
+     Organization providerOrganization = request.getContract().getOrganization();
+     List<Duration> available = providerOrganization.getWorkingDates(LocalDate.now().plusMonths(12));
+     List<Duration> upcoming = new ArrayList<>();
+     Collection<Request> upcomingSessions = requestRepo.findByRequestIdAndDuration_StartTimeNotNullAndDuration_StartTimeGreaterThan(requestId, LocalDateTime.now());
+     for (Request upcomingSession : upcomingSessions) {
+     upcoming.add(upcomingSession.getDuration());
+     }
+     return new DurationsHelper().calculateAvailableDurations(available, upcoming);
+     }
      */
 }

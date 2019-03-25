@@ -94,4 +94,12 @@ public class User implements UserDetails {
     public String toString() {
         return "User(userId=" + this.getUserId() + ", username=" + this.getUsername() + ", email=" + this.getEmail() + ", role=" + this.getRole() + ", lat=" + this.getLat() + ", longitude=" + this.getLongitude() + ", firstName=" + this.getFirstName() + ", lastName=" + this.getLastName() + ", password=" + this.getPassword() + ", passwordConfirm=" + this.getPasswordConfirm() + ")";
     }
+
+    public boolean isProvider() {
+        return "provider".equalsIgnoreCase(getRole().getName());
+    }
+
+    public boolean isClient() {
+        return "client".equalsIgnoreCase(getRole().getName());
+    }
 }
