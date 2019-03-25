@@ -74,7 +74,9 @@ public class Organization implements Comparable<Organization> {
     }
 
     public static Organization from(SignupForm signupForm) {
-        return new Organization(signupForm.getOrganizationType(), signupForm.getOrganizationName()
+        String organizationType = signupForm.getOrganizationType();
+        OrganizationType type = OrganizationType.valueOf(organizationType);
+        return new Organization(type, signupForm.getOrganizationName()
                 , signupForm.getLatitude(), signupForm.getLongitude(), signupForm.getDailyCapacity(), signupForm.getPricePerUnit(), signupForm.getTotalPrice()
                 , signupForm.getBase64());
     }

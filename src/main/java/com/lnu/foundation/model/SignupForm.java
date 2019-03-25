@@ -32,7 +32,7 @@ public class SignupForm {
     private Double longitude;
     private String base64;
 
-    private OrganizationType organizationType;
+    private String organizationType;
     private String organizationName;
     private Integer dailyCapacity;
     private Double pricePerUnit;
