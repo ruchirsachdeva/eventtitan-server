@@ -47,8 +47,13 @@ public class ListingController {
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @PostMapping("/")
     public ResponseEntity post(@RequestBody Organization listing) {
-        listingService.save(listing);
-        return ResponseEntity.ok().build();
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        if (user.isProvider()) {
+            listing.setProvider(user);
+            listingService.save(listing);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 
