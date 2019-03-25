@@ -28,31 +28,10 @@ public class UserController {
     @Autowired
     private NoteService noteService;
 
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("user/{username}/tests")
-    public Collection<Request> getClientRequests(@PathVariable String username) {
-        return service.getClientRequests(username);
-    }
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("user/{username}")
-    public User getUser(@PathVariable String username) {
-        return service.findUserByUsername(username);
-    }
-
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @GetMapping("/me")
     public User getMe() {
         return securityContextService.currentUser().orElseThrow(RuntimeException::new);
-    }
-
-
-    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @GetMapping("/me/listings")
-    public Collection<Organization> getMyListings() {
-        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        return user.getOrganizations();
     }
 
 
@@ -64,7 +43,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
-    @PostMapping("user/me/tests/{requestId}/note")
+    @PostMapping("user/me/requests/{requestId}/note")
     public Collection<Note> addNote(@PathVariable Long requestId, @RequestBody Note note) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
         return noteService.addNote(requestId, note, user);

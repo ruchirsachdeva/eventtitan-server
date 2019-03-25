@@ -26,11 +26,22 @@ public class ListingService {
     @Autowired
     private OrganizationRepository organizationRepo;
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
 
     public Collection<Organization> getListings(UserData filter) {
         List<Organization> listings = organizationRepo.findAll();
 
         return filterListings(listings, filter);
+    }
+
+    public Collection<Organization> getMyListings(String type) {
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        return user.getOrganizations().stream()
+                .parallel()
+                .filter(org -> (type == null || type.equalsIgnoreCase(org.getOrganizationType().name())))
+                .collect(Collectors.toList());
     }
 
     private Collection<Organization> filterListings(Collection<Organization> listings, UserData filter) {
@@ -52,7 +63,7 @@ public class ListingService {
     public void save(Organization listing) {
         String base64 = listing.getBase64();
         //TODO remove below if setBase64 in Organization works
-        byte[] imageByte= Base64.decodeBase64(base64);
+        byte[] imageByte = Base64.decodeBase64(base64);
         listing.setImage(imageByte);
         organizationRepo.save(listing);
     }

@@ -1,7 +1,9 @@
 package com.lnu.foundation.controller;
 
 import com.lnu.foundation.model.Organization;
+import com.lnu.foundation.model.User;
 import com.lnu.foundation.service.ListingService;
+import com.lnu.foundation.service.SecurityContextService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,23 @@ public class ListingController {
     private ListingService listingService;
 
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
+
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
     @PostMapping("/filtered")
     public Collection<Organization> getListings(@RequestBody ListingService.UserData filter) {
         logger.info("getListings#UserData: " + filter);
 
         return listingService.getListings(filter);
+    }
+
+    @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
+    @GetMapping("/me/{type}")
+    public Collection<Organization> getMyListings(@PathVariable String type) {
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        return listingService.getMyListings(type);
     }
 
     @CrossOrigin(origins = {"http://localhost:4200", "https://lit-beach-29911.herokuapp.com"})
