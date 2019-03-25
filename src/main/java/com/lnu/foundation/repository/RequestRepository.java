@@ -33,11 +33,11 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @RestResource(path = "byContractIdAll", rel = "byContractIdAll")
     Collection<Request> findByContract_ContractId(@Param("id") Long id);
 
-    @RestResource
+    @RestResource(path = "byContractId", rel = "byContractId")
     @Query("select t from Request t left join t.contract th where th.contractId = ?1 and t.duration.endTime is null")
     Collection<Request> byContractId(@Param("id") Long id);
 
-    @RestResource
+    @RestResource(path = "byContractIdHistory", rel = "byContractIdHistory")
     @Query("select t from Request t left join t.contract th where th.contractId = ?1  and t.duration.endTime is not null")
     Collection<Request> byContractIdHistory(@Param("id") Long id);
 

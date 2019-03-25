@@ -16,6 +16,4 @@ public interface RequestProjection {
 
     Duration getDuration();
 
-    int getRequestedHours();
-
 }
