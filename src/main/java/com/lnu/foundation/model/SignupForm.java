@@ -21,7 +21,7 @@ public class SignupForm {
 
     @NotNull
     @Size(min = 1, max = 100, message = "{nameSizeError}")
-    private String name;
+    private String firstName;
     @NotNull
     @Size(min = 1, max = 30)
     private String password;
@@ -33,15 +33,15 @@ public class SignupForm {
     private String base64;
 
     private String organizationType;
-    private String organizationName;
-    private Integer dailyCapacity;
+    private String name;
+    private Integer maxDailyCapacity;
     private Double pricePerUnit;
     private Double totalPrice;
 
 
     @Override
     public String toString() {
-        return "SignupForm [email=" + email + ", name=" + name + ", password="
+        return "SignupForm [email=" + email + ", firstName=" + firstName + ", password="
                 + password + "]";
     }
 

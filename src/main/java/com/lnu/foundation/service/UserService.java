@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -81,7 +78,7 @@ public class UserService implements UserDetailsService {
         final User user = new User();
         user.setEmail(signupForm.getEmail());
         user.setUsername(signupForm.getUsername());
-        user.setFirstName(signupForm.getName());
+        user.setFirstName(signupForm.getFirstName());
         if (signupForm.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         }

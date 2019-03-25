@@ -41,7 +41,7 @@ public class ListingForm {
 
 	@Override
 	public String toString() {
-		return "SignupForm [email=" + email + ", name=" + name + ", password="
+		return "SignupForm [email=" + email + ", firstName=" + name + ", password="
 				+ password + "]";
 	}
 	

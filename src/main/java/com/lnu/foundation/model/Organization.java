@@ -75,13 +75,13 @@ public class Organization implements Comparable<Organization> {
     public static Organization from(SignupForm signupForm) {
         String organizationType = signupForm.getOrganizationType();
         OrganizationType type = OrganizationType.valueOf(organizationType);
-        return new Organization(type, signupForm.getOrganizationName()
-                , signupForm.getLatitude(), signupForm.getLongitude(), signupForm.getDailyCapacity(), signupForm.getPricePerUnit(), signupForm.getTotalPrice()
+        return new Organization(type, signupForm.getName()
+                , signupForm.getLatitude(), signupForm.getLongitude(), signupForm.getMaxDailyCapacity(), signupForm.getPricePerUnit(), signupForm.getTotalPrice()
                 , signupForm.getBase64());
     }
 
     public String toString() {
-        return "Organization(organizationId=" + this.getOrganizationId() + ", name=" + this.getName() + ")";
+        return "Organization(organizationId=" + this.getOrganizationId() + ", firstName=" + this.getName() + ")";
     }
 
     public BigDecimal getTotalPrice(int units) {
