@@ -1,9 +1,10 @@
 package com.lnu.foundation.model;
 
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lnu.foundation.service.DistanceHelper;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +13,13 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"users", "organizations"})
 public class Organization implements Comparable<Organization> {
 
@@ -134,5 +133,40 @@ public class Organization implements Comparable<Organization> {
     @Override
     public int compareTo(Organization to) {
         return this.getDistance().compareTo(to.getDistance());
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Organization)) return false;
+        final Organization other = (Organization) o;
+        if (!other.canEqual(this)) return false;
+        final Object this$organizationId = this.getOrganizationId();
+        final Object other$organizationId = other.getOrganizationId();
+        if (!Objects.equals(this$organizationId, other$organizationId))
+            return false;
+        final Object this$name = this.getName();
+        final Object other$name = other.getName();
+        if (!Objects.equals(this$name, other$name)) return false;
+        final Object this$distance = this.getDistance();
+        final Object other$distance = other.getDistance();
+        if (!Objects.equals(this$distance, other$distance)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof Organization;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $organizationId = this.getOrganizationId();
+        result = result * PRIME + ($organizationId == null ? 43 : $organizationId.hashCode());
+        final Object $name = this.getName();
+        result = result * PRIME + ($name == null ? 43 : $name.hashCode());
+        result = result * PRIME + java.util.Arrays.hashCode(this.getImage());
+        final Object $distance = this.getDistance();
+        result = result * PRIME + ($distance == null ? 43 : $distance.hashCode());
+        return result;
     }
 }

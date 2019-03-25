@@ -98,7 +98,6 @@ public class User implements UserDetails {
     public boolean isProvider() {
         return "provider".equalsIgnoreCase(getRole().getName());
     }
-
     public boolean isClient() {
         return "client".equalsIgnoreCase(getRole().getName());
     }
