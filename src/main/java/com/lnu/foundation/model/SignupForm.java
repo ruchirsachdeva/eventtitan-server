@@ -11,43 +11,43 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 public class SignupForm {
-	
-	@NotNull
-	@Size(min=1, max=255)
-	@Email
-	private String email;
 
-	private String username;
-	
-	@NotNull
-	@Size(min=1, max=100, message="{nameSizeError}")
-	private String name;
-	
-	@NotNull
-	@Size(min=1, max=30)
-	private String password;
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Email
+    private String email;
 
-	private String provider;
+    private String username;
 
-	private String accessToken;
+    @NotNull
+    @Size(min = 1, max = 100, message = "{nameSizeError}")
+    private String name;
+    @NotNull
+    @Size(min = 1, max = 30)
+    private String password;
+    private String accessToken;
+    private String roleName;
 
-	private Double latitude;
-	private Double longitude;
+    private Double latitude;
+    private Double longitude;
+    private String base64;
 
-	private Long organizationId;
-	private String roleName;
-	private String base64;
+    private OrganizationType organizationType;
+    private String organizationName;
+    private Integer dailyCapacity;
+    private Double pricePerUnit;
+    private Double totalPrice;
 
 
-	@Override
-	public String toString() {
-		return "SignupForm [email=" + email + ", name=" + name + ", password="
-				+ password + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "SignupForm [email=" + email + ", name=" + name + ", password="
+                + password + "]";
+    }
 
-	public UsernamePasswordAuthenticationToken toAuthenticationToken() {
-		return new UsernamePasswordAuthenticationToken(username, password);
-	}
-	
+
+    public UsernamePasswordAuthenticationToken toAuthenticationToken() {
+        return new UsernamePasswordAuthenticationToken(username, password);
+    }
+
 }

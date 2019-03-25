@@ -57,6 +57,28 @@ public class Organization implements Comparable<Organization> {
     @Transient
     private Integer distance;
 
+    public Organization(OrganizationType organizationType, String organizationName, Double latitude,
+                        Double longitude, Integer dailyCapacity, Double pricePerUnit, Double totalPrice, String base64) {
+        this.organizationType = organizationType;
+        this.name = organizationName;
+        this.lat = latitude;
+        this.longitude = longitude;
+        this.maxDailyCapacity = dailyCapacity;
+        if (pricePerUnit != null) {
+            this.pricePerUnit = BigDecimal.valueOf(pricePerUnit);
+        }
+        if (totalPrice != null) {
+            this.totalPrice = BigDecimal.valueOf(totalPrice);
+        }
+        this.setImageBase64(base64);
+    }
+
+    public static Organization from(SignupForm signupForm) {
+        return new Organization(signupForm.getOrganizationType(), signupForm.getOrganizationName()
+                , signupForm.getLatitude(), signupForm.getLongitude(), signupForm.getDailyCapacity(), signupForm.getPricePerUnit(), signupForm.getTotalPrice()
+                , signupForm.getBase64());
+    }
+
     public String toString() {
         return "Organization(organizationId=" + this.getOrganizationId() + ", name=" + this.getName() + ")";
     }

@@ -89,7 +89,8 @@ public class UserService implements UserDetailsService {
         user.setLongitude(signupForm.getLongitude());
         user.setRole(role);
         if ("provider".equalsIgnoreCase(signupForm.getRoleName())) {
-            Organization org = this.orgRepo.getOne(signupForm.getOrganizationId());
+            Organization org = Organization.from(signupForm);
+            org.setProvider(user);
             user.addOrganization(org);
         }
         repository.save(user);
