@@ -34,8 +34,10 @@ public class Contract {
 
 
     public void endContract() {
-        Duration duration = getDuration();
-        duration.setEndTime(LocalDateTime.now());
-        setDuration(duration);
+        if (this.duration == null) {
+            this.duration = new Duration(LocalDateTime.now(), LocalDateTime.now());
+        } else {
+            this.duration.setEndTime(LocalDateTime.now());
+        }
     }
 }
