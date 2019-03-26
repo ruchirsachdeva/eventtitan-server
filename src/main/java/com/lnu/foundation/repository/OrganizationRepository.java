@@ -31,7 +31,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
             " and o.maxDailyCapacity >= ?2" +
             " and o.organizationType = ?3" +
             " and (o.totalPrice is not null and o.totalPrice <= ?4 " +
-            "       or  o.totalPrice is null and (o.pricePerUnit * ?3) <= ?4)")
+            "       or  o.totalPrice is null and (o.pricePerUnit * ?2) <= ?4)")
     Set<Organization> byListingsFilteredForClient(@Param("client") String client, @Param("guests") Integer guests,
                                                   @Param("organizationType") OrganizationType organizationType,
                                                   @Param("maxBudget") BigDecimal maxBudget);
