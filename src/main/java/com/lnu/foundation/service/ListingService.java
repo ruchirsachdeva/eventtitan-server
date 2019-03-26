@@ -36,11 +36,21 @@ public class ListingService {
     public Collection<Organization> getListings(UserData filter) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
         Collection<Contract> clientContracts = contractService.getClientContracts(user);
+
         List<Long> filterListingIds = clientContracts.stream()
                 .parallel()
                 .map(c -> c.getOrganization().getOrganizationId())
                 .collect(Collectors.toList());
-        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()));
+
+        Set<Organization> organizations = organizationRepo
+                .byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
+                .parallelStream()
+                .map(org -> {
+                    org.setDistance(filter.getLatitude(), filter.getLongitude());
+                    return org;
+                })
+                .collect(Collectors.toSet());
+        ;
         return organizations;
         //List<Organization> listings = organizationRepo.findAll();
 
