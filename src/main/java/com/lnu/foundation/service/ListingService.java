@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -34,13 +31,7 @@ public class ListingService {
 
 
     public Collection<Organization> getListings(UserData filter) {
-        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        Collection<Contract> clientContracts = contractService.getClientContracts(user);
-
-        List<Long> filterListingIds = clientContracts.stream()
-                .parallel()
-                .map(c -> c.getOrganization().getOrganizationId())
-                .collect(Collectors.toList());
+        List<Long> filterListingIds = getListingIdsFilter();
 
         Set<Organization> organizations = organizationRepo
                 .byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
@@ -57,6 +48,20 @@ public class ListingService {
         //return filterListingIds(listings, filter);
     }
 
+    private List<Long> getListingIdsFilter() {
+        List<Long> filterListingIds = new ArrayList<>();
+        User user = securityContextService.currentUser().orElse(null);
+        if (user != null) {
+            Collection<Contract> clientContracts = contractService.getClientContracts(user);
+
+            filterListingIds = clientContracts.stream()
+                    .parallel()
+                    .map(c -> c.getOrganization().getOrganizationId())
+                    .collect(Collectors.toList());
+        }
+        return filterListingIds;
+    }
+
     public Collection<Organization> getMyListings(String type) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
         return user.getOrganizations().stream()
@@ -66,8 +71,11 @@ public class ListingService {
     }
 
     private Collection<Organization> filterListings(Collection<Organization> listings, UserData filter) {
-        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        Collection<Contract> clientContracts = contractService.getClientContracts(user);
+        User user = securityContextService.currentUser().orElse(null);
+        ArrayList<Contract> clientContracts = new ArrayList<>();
+        if (user != null) {
+            clientContracts.addAll(contractService.getClientContracts(user));
+        }
         return listings.stream().parallel()
                 .filter(org ->
                         (clientContracts.stream()
