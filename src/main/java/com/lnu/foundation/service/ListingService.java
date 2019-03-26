@@ -1,9 +1,7 @@
 package com.lnu.foundation.service;
 
 import com.lnu.foundation.model.*;
-import com.lnu.foundation.repository.NoteRepository;
 import com.lnu.foundation.repository.OrganizationRepository;
-import com.lnu.foundation.repository.RequestRepository;
 import lombok.Value;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -34,9 +32,19 @@ public class ListingService {
 
 
     public Collection<Organization> getListings(UserData filter) {
-        List<Organization> listings = organizationRepo.findAll();
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(user.getUsername(), filter.getGuests(), filter.getType(), filter.getMaxBudget());
+        organizations.stream()
+                .parallel()
+                .map(org -> {
+                    org.setDistance(filter.getLatitude(), filter.getLongitude());
+                    return org;
+                })
+                .collect(Collectors.toSet());
+        return organizations;
+        //List<Organization> listings = organizationRepo.findAll();
 
-        return filterListings(listings, filter);
+        //return filterListings(listings, filter);
     }
 
     public Collection<Organization> getMyListings(String type) {

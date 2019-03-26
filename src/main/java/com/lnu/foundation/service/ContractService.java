@@ -50,6 +50,7 @@ public class ContractService {
         if(user.isClient()) {
             return contractRepository.findByClient_UsernameAndDuration_EndTimeIsNull(user.getUsername());
         }
+
         return Collections.emptyList();
     }
 
