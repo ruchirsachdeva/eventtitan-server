@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,6 +44,13 @@ public class ContractService {
         Contract contract = contractRepository.getOne(contractId);
        contract.endContract();
         this.contractRepository.save(contract);
+    }
+
+    public Collection<Contract> getClientContracts(User user) {
+        if(user.isClient()) {
+            return contractRepository.findByClient_Username(user.getUsername());
+        }
+        return Collections.emptyList();
     }
 
 

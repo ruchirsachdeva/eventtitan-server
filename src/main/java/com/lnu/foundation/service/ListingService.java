@@ -29,6 +29,9 @@ public class ListingService {
     @Autowired
     private SecurityContextService securityContextService;
 
+    @Autowired
+    private ContractService contractService;
+
 
     public Collection<Organization> getListings(UserData filter) {
         List<Organization> listings = organizationRepo.findAll();
@@ -45,9 +48,14 @@ public class ListingService {
     }
 
     private Collection<Organization> filterListings(Collection<Organization> listings, UserData filter) {
+        User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
+        Collection<Contract> clientContracts = contractService.getClientContracts(user);
         return listings.stream().parallel()
                 .filter(org ->
-                        (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
+                        (clientContracts.stream()
+                                .parallel()
+                                .anyMatch(contract -> contract.getOrganization().getOrganizationId().equals(org.getOrganizationId())))
+                                && (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
                                 && (filter.getGuests() <= org.getMaxDailyCapacity())
                                 && (filter.getMaxBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
                                 && (filter.getType() == null || filter.getType() == org.getOrganizationType())
@@ -56,8 +64,7 @@ public class ListingService {
                     org.setDistance(filter.getLatitude(), filter.getLongitude());
                     return org;
                 })
-                .sorted()
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public void save(Organization listing) {
