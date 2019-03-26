@@ -12,7 +12,7 @@ public interface RequestProjection {
 
     ContractProjection getContract();
 
-    List<Note> getNotes();
+    List<NoteProjection> getNotes();
 
     Duration getDuration();
 

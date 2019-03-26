@@ -27,7 +27,7 @@ public class Note {
     private Request request;
     @ManyToOne
     @JoinColumn(name = "provider_id")
-    private User providerUser;
+    private User user;
 
     @JsonProperty
     public Long getRequestId() {

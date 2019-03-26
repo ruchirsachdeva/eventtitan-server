@@ -34,7 +34,7 @@ public class RequestService {
         Note note = new Note();
         note.setNote("Request type is : + " + type);
         note.setRequest(request);
-        note.setProviderUser(context.getMe());
+        note.setUser(context.getMe());
         request.addNote(note);
         request.setContract(contract);
         Duration duration = new Duration();

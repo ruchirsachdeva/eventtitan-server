@@ -27,7 +27,7 @@ public class NoteService {
 
     public Collection<Note> addNote(Long requestId, Note note, User user) {
         Request request = requestRepo.getOne(requestId);
-        note.setProviderUser(user);
+        note.setUser(user);
         note.setRequest(request);
         noterepo.save(note);
         return noterepo.findByRequest(request);
