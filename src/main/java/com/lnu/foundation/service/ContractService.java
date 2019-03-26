@@ -48,7 +48,7 @@ public class ContractService {
 
     public Collection<Contract> getClientContracts(User user) {
         if(user.isClient()) {
-            return contractRepository.findByClient_Username(user.getUsername());
+            return contractRepository.findByClient_UsernameAndDuration_EndTimeIsNull(user.getUsername());
         }
         return Collections.emptyList();
     }

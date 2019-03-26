@@ -57,10 +57,6 @@ public class UserService implements UserDetailsService {
         return requestRepo.findByContract_Client_Username(username);
     }
 
-    public List<Contract> getContractsByClient(String username) {
-        return contractRepository.findByClient_Username(username);
-    }
-
     public List<Contract> getContractsByProvider(String username) {
         return contractRepository.findByOrganization_Provider_Username(username);
     }

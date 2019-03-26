@@ -54,7 +54,7 @@ public class ListingService {
                 .filter(org ->
                         (clientContracts.stream()
                                 .parallel()
-                                .anyMatch(contract -> contract.getOrganization().getOrganizationId().equals(org.getOrganizationId())))
+                                .allMatch(contract -> !contract.getOrganization().getOrganizationId().equals(org.getOrganizationId())))
                                 && (org.getMinDailyCapacity() == null || org.getMinDailyCapacity() >= filter.getGuests())
                                 && (filter.getGuests() <= org.getMaxDailyCapacity())
                                 && (filter.getMaxBudget() >= org.getTotalPrice(filter.getGuests()).doubleValue())
