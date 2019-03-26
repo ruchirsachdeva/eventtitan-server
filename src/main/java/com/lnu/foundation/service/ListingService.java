@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,18 +35,16 @@ public class ListingService {
 
     public Collection<Organization> getListings(UserData filter) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(user.getUsername(), filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()));
-        organizations.stream()
+        Collection<Contract> clientContracts = contractService.getClientContracts(user);
+        List<Long> filterListingIds = clientContracts.stream()
                 .parallel()
-                .map(org -> {
-                    org.setDistance(filter.getLatitude(), filter.getLongitude());
-                    return org;
-                })
-                .collect(Collectors.toSet());
+                .map(c -> c.getOrganization().getOrganizationId())
+                .collect(Collectors.toList());
+        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()));
         return organizations;
         //List<Organization> listings = organizationRepo.findAll();
 
-        //return filterListings(listings, filter);
+        //return filterListingIds(listings, filter);
     }
 
     public Collection<Organization> getMyListings(String type) {

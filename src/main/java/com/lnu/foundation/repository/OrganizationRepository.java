@@ -27,12 +27,12 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
 
 
     @RestResource(path = "byListingsFilteredForClient", rel = "byListingsFilteredForClient")
-    @Query("select distinct(o) from Contract c left join c.organization o where (c.client.username != ?1 or c.duration.endTime is not null)" +
+    @Query("select distinct(o) from Organization o where o.organizationId not in ?1" +
             " and o.maxDailyCapacity >= ?2" +
             " and o.organizationType = ?3" +
             " and (o.totalPrice is not null and o.totalPrice <= ?4 " +
             "       or  o.totalPrice is null and (o.pricePerUnit * ?2) <= ?4)")
-    Set<Organization> byListingsFilteredForClient(@Param("client") String client, @Param("guests") Integer guests,
+    Set<Organization> byListingsFilteredForClient(@Param("filterListingIds") List<Long> filterListingIds, @Param("guests") Integer guests,
                                                   @Param("organizationType") OrganizationType organizationType,
                                                   @Param("maxBudget") BigDecimal maxBudget);
 
