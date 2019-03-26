@@ -32,7 +32,7 @@ public class RequestService {
         Contract contract = contractRepository.getOne(contractId);
         Request request = new Request();
         Note note = new Note();
-        note.setNote("Request type is : + " + type);
+        note.setNote("Request type " + type + " is created");
         note.setRequest(request);
         note.setUser(context.getMe());
         request.addNote(note);
