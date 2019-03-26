@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class ListingService {
 
     public Collection<Organization> getListings(UserData filter) {
         User user = securityContextService.currentUser().orElseThrow(RuntimeException::new);
-        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(user.getUsername(), filter.getGuests(), filter.getType(), filter.getMaxBudget());
+        Set<Organization> organizations = organizationRepo.byListingsFilteredForClient(user.getUsername(), filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()));
         organizations.stream()
                 .parallel()
                 .map(org -> {

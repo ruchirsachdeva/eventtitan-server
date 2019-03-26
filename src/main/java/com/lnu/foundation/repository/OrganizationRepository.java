@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +31,10 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
             " and o.maxDailyCapacity >= ?2" +
             " and o.organizationType = ?3" +
             " and (o.totalPrice is not null and o.totalPrice <= ?4 " +
-            "       or  o.totalPrice is null and (o.pricePerUnit * c.guests) <= ?4)")
+            "       or  o.totalPrice is null and (o.pricePerUnit * ?3) <= ?4)")
     Set<Organization> byListingsFilteredForClient(@Param("client") String client, @Param("guests") Integer guests,
                                                   @Param("organizationType") OrganizationType organizationType,
-                                                  @Param("maxBudget") Double maxBudget);
+                                                  @Param("maxBudget") BigDecimal maxBudget);
 
 /**
 
