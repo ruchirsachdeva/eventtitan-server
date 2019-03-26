@@ -21,7 +21,8 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"users", "organizations"})
-public class Organization implements Comparable<Organization> {
+public class
+Organization implements Comparable<Organization> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -132,7 +133,7 @@ public class Organization implements Comparable<Organization> {
 
     @Override
     public int compareTo(Organization to) {
-        return this.getDistance().compareTo(to.getDistance());
+        return this.equals(to) ? 0 : this.getDistance().compareTo(to.getDistance());
     }
 
     public boolean equals(final Object o) {
@@ -147,9 +148,6 @@ public class Organization implements Comparable<Organization> {
         final Object this$name = this.getName();
         final Object other$name = other.getName();
         if (!Objects.equals(this$name, other$name)) return false;
-        final Object this$distance = this.getDistance();
-        final Object other$distance = other.getDistance();
-        if (!Objects.equals(this$distance, other$distance)) return false;
         return true;
     }
 
@@ -164,9 +162,6 @@ public class Organization implements Comparable<Organization> {
         result = result * PRIME + ($organizationId == null ? 43 : $organizationId.hashCode());
         final Object $name = this.getName();
         result = result * PRIME + ($name == null ? 43 : $name.hashCode());
-        result = result * PRIME + java.util.Arrays.hashCode(this.getImage());
-        final Object $distance = this.getDistance();
-        result = result * PRIME + ($distance == null ? 43 : $distance.hashCode());
         return result;
     }
 }
