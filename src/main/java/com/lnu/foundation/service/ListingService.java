@@ -34,32 +34,31 @@ public class ListingService {
         User user = securityContextService.currentUser().orElse(null);
         if (user != null) {
             Collection<Contract> clientContracts = contractService.getClientContracts(user);
-
-            List<Long> filterListingIds = clientContracts.stream()
-                    .parallel()
-                    .map(c -> c.getOrganization().getOrganizationId())
-                    .collect(Collectors.toList());
-            return organizationRepo
-                    .byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
-                    .parallelStream()
-                    .map(org -> {
-                        org.setDistance(filter.getLatitude(), filter.getLongitude());
-                        return org;
-                    })
-                    .collect(Collectors.toSet());
-
-        } else {
-            return organizationRepo
-                    .byListingsFiltered(filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
-                    .parallelStream()
-                    .map(org -> {
-                        org.setDistance(filter.getLatitude(), filter.getLongitude());
-                        return org;
-                    })
-                    .collect(Collectors.toSet());
-
-
+            if (!clientContracts.isEmpty()) {
+                List<Long> filterListingIds = clientContracts.stream()
+                        .parallel()
+                        .map(c -> c.getOrganization().getOrganizationId())
+                        .collect(Collectors.toList());
+                return organizationRepo
+                        .byListingsFilteredForClient(filterListingIds, filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
+                        .parallelStream()
+                        .map(org -> {
+                            org.setDistance(filter.getLatitude(), filter.getLongitude());
+                            return org;
+                        })
+                        .collect(Collectors.toSet());
+            }
         }
+        return organizationRepo
+                .byListingsFiltered(filter.getGuests(), filter.getType(), BigDecimal.valueOf(filter.getMaxBudget()))
+                .parallelStream()
+                .map(org -> {
+                    org.setDistance(filter.getLatitude(), filter.getLongitude());
+                    return org;
+                })
+                .collect(Collectors.toSet());
+
+
         //List<Organization> listings = organizationRepo.findAll();
 
         //return filterListingIds(listings, filter);
