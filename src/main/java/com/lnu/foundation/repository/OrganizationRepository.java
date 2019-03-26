@@ -36,6 +36,16 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
                                                   @Param("organizationType") OrganizationType organizationType,
                                                   @Param("maxBudget") BigDecimal maxBudget);
 
+
+    @RestResource(path = "byListingsFiltered", rel = "byListingsFilteredForClient")
+    @Query("select distinct(o) from Organization o where o.maxDailyCapacity >= ?1" +
+            " and o.organizationType = ?2" +
+            " and (o.totalPrice is not null and o.totalPrice <= ?3 " +
+            "       or  o.totalPrice is null and (o.pricePerUnit * ?1) <= ?3)")
+    Set<Organization> byListingsFiltered(@Param("guests") Integer guests,
+                                                  @Param("organizationType") OrganizationType organizationType,
+                                                  @Param("maxBudget") BigDecimal maxBudget);
+
 /**
 
  contractRepository.findByClient_UsernameAndDuration_EndTimeIsNull(user.getUsername());
