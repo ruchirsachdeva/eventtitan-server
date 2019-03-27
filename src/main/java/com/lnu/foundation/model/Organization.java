@@ -52,8 +52,9 @@ Organization implements Comparable<Organization> {
     private WorkingHours workingHours;
 
 
+    // Remove if want to restrict delition of listing which have contracts associated
     @JsonIgnore
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Contract> contracts = new ArrayList<>();
 
 
