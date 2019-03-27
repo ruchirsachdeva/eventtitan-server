@@ -54,7 +54,7 @@ Organization implements Comparable<Organization> {
 
     // Remove if want to restrict delition of listing which have contracts associated
     @JsonIgnore
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Contract> contracts = new ArrayList<>();
 
 
