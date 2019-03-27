@@ -102,10 +102,13 @@ public class ListingService {
         listing.setImage(imageByte);
 
         //TODO remove below and get org from server before updating and send contracts along
-        Organization existing = organizationRepo.getOne(listing.getOrganizationId());
-        if (existing != null) {
-            listing.setContracts(existing.getContracts());
+        if (listing.getOrganizationId() != null) {
+            Organization existing = organizationRepo.getOne(listing.getOrganizationId());
+            if (existing != null) {
+                listing.setContracts(existing.getContracts());
+            }
         }
+
         organizationRepo.save(listing);
     }
 
