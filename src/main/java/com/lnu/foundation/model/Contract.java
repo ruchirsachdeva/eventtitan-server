@@ -26,7 +26,7 @@ public class Contract {
     @Embedded
     private Duration duration;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id")
     private Organization organization;
 

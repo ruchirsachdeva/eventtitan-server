@@ -13,6 +13,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"users", "organizations"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"users", "organizations", "contracts"})
 public class
 Organization implements Comparable<Organization> {
 
@@ -49,6 +50,12 @@ Organization implements Comparable<Organization> {
     @OneToOne
     @JoinColumn(name = "working_hours_id")
     private WorkingHours workingHours;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contract> contracts = new ArrayList<>();
+
 
     @Lob
     @Basic
