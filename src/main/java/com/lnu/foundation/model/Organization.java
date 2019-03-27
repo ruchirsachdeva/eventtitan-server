@@ -89,6 +89,16 @@ Organization implements Comparable<Organization> {
                 , signupForm.getBase64());
     }
 
+    public void addContract(Contract contract) {
+        contracts.add(contract);
+        contract.setOrganization(this);
+    }
+
+    public void removeContract(Contract contract) {
+        contracts.remove(contract);
+        contract.setOrganization(null);
+    }
+
     public String toString() {
         return "Organization(organizationId=" + this.getOrganizationId() + ", firstName=" + this.getName() + ")";
     }

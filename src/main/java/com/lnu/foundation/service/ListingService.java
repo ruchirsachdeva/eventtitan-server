@@ -100,6 +100,12 @@ public class ListingService {
         //TODO remove below if setBase64 in Organization works
         byte[] imageByte = Base64.decodeBase64(base64);
         listing.setImage(imageByte);
+
+        //TODO remove below and get org from server before updating and send contracts along
+        Organization existing = organizationRepo.getOne(listing.getOrganizationId());
+        if (existing != null) {
+            listing.setContracts(existing.getContracts());
+        }
         organizationRepo.save(listing);
     }
 
